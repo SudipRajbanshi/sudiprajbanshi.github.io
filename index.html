@@ -1,39 +1,986 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-<meta charset="UTF-8">
-<meta name="author" content="sudip">
-<meta name="description" content="In this website I will anything I want to write">
-<title>About me</title>
-<link rel="stylesheet" href="main.css" type="text/css">
-    </head>
-    <body>
-        <h1>Hello, I'm Sudip</h1>
-        <h2>I am a designer from West bengal, India</h2>
-        <h3>I am specialized in these areas-</h3>
-        <br>Product design
-        <br>Marketing design
-        <br>Web design (both ui and ux)
-        <br>brand design (including logo, printables and identity)
-        <br>desktop and mobile app ui/ux 
-        <br>graphics
-        <br>web front-end, html and css
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudip Rajbanshi</title>
+    <meta name="description" content="Graphic designer and brand specialist. Creating visual systems that are purposeful, technical, and unmistakably human.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* =====================================================================
+           CUSTOM PROPERTIES
+           ===================================================================== */
+
+        :root {
+            --bg:       #f8f7f4;
+            --fg:       #141414;
+            --muted:    #6a6a6a;
+            --accent:   #5a7a0c;
+            --line:     rgba(20, 20, 20, 0.09);
+            --line-hi:  rgba(20, 20, 20, 0.18);
+
+            --ff-d: 'Syne', sans-serif;
+            --ff-b: 'Manrope', sans-serif;
+
+            --max:     1120px;
+            --gutter:  clamp(1.25rem, 5vw, 4rem);
+            --section: clamp(5rem, 11vh, 9rem);
+            --swift:   cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        [data-theme="dark"] {
+            --bg:      #111110;
+            --fg:      #e9e7e1;
+            --muted:   #707070;
+            --accent:  #9dbb2a;
+            --line:    rgba(233, 231, 225, 0.07);
+            --line-hi: rgba(233, 231, 225, 0.18);
+        }
+
+        /* =====================================================================
+           BASE RESET
+           ===================================================================== */
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--ff-b);
+            background: var(--bg);
+            color: var(--fg);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            transition: background 0.45s ease, color 0.45s ease;
+        }
+
+        a      { color: inherit; text-decoration: none; }
+        img    { display: block; max-width: 100%; }
+        button { cursor: pointer; font-family: inherit; }
+
+        .wrap {
+            max-width: var(--max);
+            margin-inline: auto;
+            padding-inline: var(--gutter);
+        }
+
+        /* =====================================================================
+           KEYFRAMES
+           ===================================================================== */
+
+        @keyframes fade-up {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: none; }
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0.35; }
+        }
+
+        /* =====================================================================
+           SCROLL REVEAL
+           ===================================================================== */
+
+        .sr {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.72s var(--swift), transform 0.72s var(--swift);
+        }
+        .sr.in { opacity: 1; transform: none; }
+
+        .sg > * {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.65s var(--swift), transform 0.65s var(--swift);
+        }
+        .sg.in > *:nth-child(1) { opacity: 1; transform: none; transition-delay: 0s; }
+        .sg.in > *:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.08s; }
+        .sg.in > *:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.16s; }
+        .sg.in > *:nth-child(4) { opacity: 1; transform: none; transition-delay: 0.24s; }
+        .sg.in > *:nth-child(5) { opacity: 1; transform: none; transition-delay: 0.32s; }
+        .sg.in > *:nth-child(6) { opacity: 1; transform: none; transition-delay: 0.40s; }
+
+        /* =====================================================================
+           NAVIGATION
+           ===================================================================== */
+
+        .nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 90;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.1rem var(--gutter);
+            border-bottom: 1px solid transparent;
+            transition: background 0.35s ease, border-color 0.35s ease;
+        }
+
+        .nav.solid {
+            background: var(--bg);
+            border-color: var(--line);
+        }
+
+        .nav-logo {
+            font-family: var(--ff-d);
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: -0.01em;
+            opacity: 0;
+            animation: fade-up 0.7s var(--swift) 0.1s forwards;
+            transition: opacity 0.2s;
+        }
+        .nav-logo:hover { opacity: 0.5; }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            opacity: 0;
+            animation: fade-up 0.7s var(--swift) 0.2s forwards;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.75rem;
+        }
+        .nav-links a {
+            font-size: 0.77rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--fg); }
+
+        /* ── Theme toggle ── */
+        .theme-toggle {
+            position: relative;
+            width: 54px;
+            height: 28px;
+            border-radius: 14px;
+            background: var(--line-hi);
+            border: 1px solid var(--line-hi);
+            flex-shrink: 0;
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        /* Sliding knob */
+        .theme-toggle__knob {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--fg);
+            pointer-events: none;
+            z-index: 2;
+            transition: transform 0.3s var(--swift), background 0.3s;
+        }
+        [data-theme="dark"] .theme-toggle__knob { transform: translateX(26px); }
+
+        /* Icon row behind the knob */
+        .theme-toggle__icons {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-inline: 6px;
+            pointer-events: none;
+        }
+
+        .theme-toggle__icon {
+            width: 12px;
+            height: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.25s;
+        }
+        .theme-toggle__icon svg {
+            width: 100%;
+            height: 100%;
+            stroke: var(--fg);
+        }
+
+        /* Active icon is fully opaque; inactive is faint */
+        .theme-toggle__icon--sun  { opacity: 1; }
+        .theme-toggle__icon--moon { opacity: 0.4; }
+
+        [data-theme="dark"] .theme-toggle__icon--sun  { opacity: 0.4; }
+        [data-theme="dark"] .theme-toggle__icon--moon { opacity: 1; }
+
+        /* =====================================================================
+           HERO
+           ===================================================================== */
+
+        .hero {
+            min-height: 100svh;
+            padding-top: 120px;
+            padding-bottom: clamp(3.5rem, 9vh, 7rem);
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .hero-eyebrow {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--accent);
+            margin-bottom: 1.25rem;
+            opacity: 0;
+            animation: fade-up 0.75s var(--swift) 0.3s forwards;
+        }
+
+        .hero-name {
+            font-family: var(--ff-d);
+            font-size: clamp(3.5rem, 8.5vw, 8rem);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 0.91;
+            opacity: 0;
+            animation: fade-up 0.85s var(--swift) 0.42s forwards;
+        }
+
+        .hero-tagline {
+            max-width: 480px;
+            font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+            font-weight: 300;
+            color: var(--muted);
+            line-height: 1.8;
+            margin-top: 2.25rem;
+            opacity: 0;
+            animation: fade-up 0.75s var(--swift) 0.58s forwards;
+        }
+
+        .hero-bar {
+            margin-top: 3rem;
+            opacity: 0;
+            animation: fade-up 0.65s var(--swift) 0.72s forwards;
+        }
+
+        .avail {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            font-size: 0.77rem;
+            color: var(--muted);
+        }
+        .avail-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            flex-shrink: 0;
+            animation: pulse-dot 2.5s ease infinite;
+        }
+
+        /* =====================================================================
+           DIVIDER
+           ===================================================================== */
+
+        .hr { height: 1px; background: var(--line); }
+
+        /* =====================================================================
+           SECTION LABEL UTILITY
+           ===================================================================== */
+
+        .cap {
+            display: block;
+            font-size: 0.74rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--muted);
+        }
+
+        /* =====================================================================
+           ABOUT
+           ===================================================================== */
+
+        .about { padding-block: var(--section); }
+
+        .about-inner {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: clamp(3rem, 7vw, 9rem);
+        }
+
+        .about-h {
+            font-family: var(--ff-d);
+            font-size: clamp(1.65rem, 3.2vw, 2.65rem);
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            line-height: 1.18;
+            margin-top: 1.75rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .about-p {
+            font-size: 1rem;
+            font-weight: 300;
+            line-height: 1.82;
+            color: var(--muted);
+            margin-bottom: 0.9rem;
+        }
+        .about-p:last-child { margin-bottom: 0; }
+
+        .about-meta { padding-top: 3.5rem; }
+
+        .meta-blk { margin-bottom: 2.25rem; }
+
+        .meta-cap {
+            font-size: 0.71rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--muted);
+            display: block;
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 0.45rem;
+            margin-bottom: 0.85rem;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            list-style: none;
+        }
+        .tag-list li {
+            font-size: 0.79rem;
+            padding: 0.28em 0.78em;
+            border-radius: 100px;
+            border: 1px solid var(--line);
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .tag-list li:hover { border-color: var(--accent); color: var(--accent); }
+
+        /* =====================================================================
+           WORK
+           ===================================================================== */
+
+        .work { padding-block: var(--section); }
+
+        .work-head {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .tally {
+            font-family: var(--ff-d);
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--muted);
+        }
+
+        .proj-list { list-style: none; }
+
+        .proj-row {
+            display: grid;
+            grid-template-columns: 3rem 1fr auto auto 1.75rem;
+            align-items: center;
+            gap: 1.25rem;
+            padding-block: 1.4rem;
+            border-bottom: 1px solid var(--line);
+            cursor: pointer;
+            transition: padding-left 0.28s var(--swift);
+        }
+        .proj-row:hover { padding-left: 0.5rem; }
+        .proj-row:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        .pr-num {
+            font-family: var(--ff-d);
+            font-size: 0.71rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            color: var(--muted);
+            transition: color 0.2s;
+        }
+        .pr-title {
+            font-family: var(--ff-d);
+            font-size: clamp(1.15rem, 2.2vw, 1.65rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        .pr-cat {
+            font-size: 0.77rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+        }
+        .pr-year {
+            font-size: 0.82rem;
+            color: var(--muted);
+            font-variant-numeric: tabular-nums;
+        }
+        .pr-arrow {
+            font-size: 1.1rem;
+            color: var(--muted);
+            transition: transform 0.28s var(--swift), color 0.2s;
+        }
+
+        .proj-row:hover .pr-num   { color: var(--accent); }
+        .proj-row:hover .pr-arrow { transform: translate(3px, -3px); color: var(--accent); }
+
+        /* =====================================================================
+           PROJECT DETAIL OVERLAY
+           ===================================================================== */
+
+        #overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: var(--bg);
+            overflow-y: auto;
+            padding-block: clamp(2rem, 5vw, 5rem);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(14px);
+            transition: opacity 0.38s ease, transform 0.38s var(--swift), visibility 0s 0.38s;
+        }
+        #overlay.open {
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            transition: opacity 0.38s ease, transform 0.38s var(--swift), visibility 0s 0s;
+        }
+
+        .ov-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.74rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            background: none;
+            border: none;
+            padding: 0;
+            margin-bottom: 2.75rem;
+            transition: color 0.2s, gap 0.25s ease;
+        }
+        .ov-back:hover { color: var(--fg); gap: 0.8rem; }
+
+        .ov-title {
+            font-family: var(--ff-d);
+            font-size: clamp(2.75rem, 6.5vw, 6rem);
+            font-weight: 800;
+            letter-spacing: -0.035em;
+            line-height: 0.92;
+            margin-bottom: 2.75rem;
+        }
+
+        .ov-cover {
+            width: 100%;
+            height: clamp(260px, 54vh, 580px);
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 4rem;
+        }
+
+        .ov-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: clamp(3rem, 6vw, 7rem);
+        }
+
+        .ov-headline {
+            font-family: var(--ff-d);
+            font-size: clamp(1.3rem, 2.3vw, 2rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .ov-desc {
+            font-size: 1rem;
+            font-weight: 300;
+            line-height: 1.82;
+            color: var(--muted);
+            margin-bottom: 1.2rem;
+        }
+
+        .ov-sb-group { margin-bottom: 2rem; }
+
+        .ov-sb-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--muted);
+            display: block;
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 0.4rem;
+            margin-bottom: 0.65rem;
+        }
+
+        .ov-sb-list { list-style: none; }
+        .ov-sb-list li { font-size: 0.9rem; line-height: 2; }
+
+        .ov-gallery {
+            margin-top: 3.5rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.9rem;
+        }
+        .ov-gallery img {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+            border-radius: 7px;
+        }
+
+        /* =====================================================================
+           CONTACT
+           ===================================================================== */
+
+        .contact {
+            padding-block: var(--section);
+            padding-bottom: clamp(4.5rem, 15vh, 10rem);
+            text-align: center;
+        }
+
+        .contact-heading {
+            font-family: var(--ff-d);
+            font-size: clamp(3.5rem, 10vw, 9rem);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 0.9;
+            margin-top: 1.5rem;
+            margin-bottom: 2.25rem;
+        }
+
+        .contact-mail {
+            display: inline-block;
+            font-family: var(--ff-d);
+            font-size: clamp(1rem, 2.2vw, 1.65rem);
+            font-weight: 600;
+            border-bottom: 1.5px solid var(--line-hi);
+            padding-bottom: 0.12em;
+            margin-bottom: 3rem;
+            transition: color 0.22s, border-color 0.3s;
+        }
+        .contact-mail:hover { color: var(--accent); border-color: var(--accent); }
+
+        .socials {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+        .socials a {
+            font-size: 0.77rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            transition: color 0.2s;
+        }
+        .socials a:hover { color: var(--fg); }
+
+        /* =====================================================================
+           FOOTER
+           ===================================================================== */
+
+        .site-footer {
+            border-top: 1px solid var(--line);
+            padding-block: 1.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .site-footer span { font-size: 0.77rem; color: var(--muted); }
+
+        /* =====================================================================
+           RESPONSIVE
+           ===================================================================== */
+
+        @media (max-width: 880px) {
+            .nav-links { display: none; }
+
+            .about-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+            .about-meta  { padding-top: 0; }
+
+            .proj-row { grid-template-columns: 2.75rem 1fr 1.75rem; }
+            .pr-cat, .pr-year { display: none; }
+
+            .ov-layout  { grid-template-columns: 1fr; }
+            .ov-gallery { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 540px) {
+            .ov-gallery { grid-template-columns: 1fr; }
+            .site-footer { flex-direction: column; gap: 0.4rem; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION ============================================================ -->
+    <nav class="nav" id="nav">
+        <a href="#" class="nav-logo">Sudip Rajbanshi</a>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#work">Work</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeBtn" aria-label="Toggle colour theme">
+                <span class="theme-toggle__knob"></span>
+                <span class="theme-toggle__icons" aria-hidden="true">
+                    <span class="theme-toggle__icon theme-toggle__icon--sun">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="4"/>
+                            <line x1="12" y1="2"  x2="12" y2="5"/>
+                            <line x1="12" y1="19" x2="12" y2="22"/>
+                            <line x1="4.22" y1="4.22"  x2="6.34" y2="6.34"/>
+                            <line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/>
+                            <line x1="2"  y1="12" x2="5"  y2="12"/>
+                            <line x1="19" y1="12" x2="22" y2="12"/>
+                            <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/>
+                            <line x1="17.66" y1="6.34"  x2="19.78" y2="4.22"/>
+                        </svg>
+                    </span>
+                    <span class="theme-toggle__icon theme-toggle__icon--moon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>
+                        </svg>
+                    </span>
+                </span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO ================================================================== -->
+    <section class="hero" id="hero">
+        <div class="wrap">
+            <span class="hero-eyebrow">Graphic Designer &amp; Brand Specialist</span>
+            <h1 class="hero-name">Sudip<br>Rajbanshi.</h1>
+            <p class="hero-tagline">
+                I create designs that solves problems &mdash;
+                purposeful, and human.
+            </p>
+            <div class="hero-bar">
+                <span class="avail">
+                    <span class="avail-dot"></span>
+                    Available for projects
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <div class="hr"></div>
+
+    <!-- ABOUT ================================================================= -->
+    <section class="about" id="about">
+        <div class="wrap about-inner sg">
+            <div>
+                <span class="cap">About</span>
+                <h2 class="about-h">Design that starts<br>from strategy.</h2>
+                <p class="about-p">
+                    I am a graphic designer and brand specialist. My process begins with understanding
+                    &mdash; the brand&rsquo;s context, its people, and the market it moves through.
+                </p>
+                <p class="about-p">
+                    The result is Visual systems that hold together from a business card to a billboard or a full digital presence.
+                </p>
+            </div>
+            <div class="about-meta">
+                <div class="meta-blk">
+                    <span class="meta-cap">Disciplines</span>
+                    <ul class="tag-list">
+                        <li>Brand Identity</li>
+                        <li>Packaging</li>
+                        <li>Editorial</li>
+                        <li>Typography</li>
+                        <li>Motion</li>
+                        <li>Digital</li>
+                    </ul>
+                </div>
+                <div class="meta-blk">
+                    <span class="meta-cap">Tools</span>
+                    <ul class="tag-list">
+                        <li>Figma</li>
+                        <li>Illustrator</li>
+                        <li>Photoshop</li>
+                        <li>Affinity</li>
+                        <li>InDesign</li>
+                    </ul>
+                </div>
+                <div class="meta-blk">
+                    <span class="meta-cap">Based in</span>
+                    <ul class="tag-list">
+                        <li>West Bengal</li>
+                        <li>India</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="hr"></div>
+
+    <!-- WORK ================================================================== -->
+    <section class="work" id="work">
+        <div class="wrap">
+            <div class="work-head sr">
+                <span class="cap" style="margin-bottom:0">Selected Work</span>
+                <span class="tally">002</span>
+            </div>
+
+            <ul class="proj-list sg">
+
+                <li class="proj-row"
+                    data-id="Qervica"
+                    tabindex="0"
+                    role="button"
+                    aria-label="Open Qervica project">
+                    <span class="pr-num">01</span>
+                    <span class="pr-title">Qervica</span>
+                    <span class="pr-cat">Branding</span>
+                    <span class="pr-year">2025</span>
+                    <span class="pr-arrow">&#8599;</span>
+                </li>
+
+                <li class="proj-row"
+                    data-id="Coorgs"
+                    tabindex="0"
+                    role="button"
+                    aria-label="Open Coorgs project">
+                    <span class="pr-num">02</span>
+                    <span class="pr-title">Coorg's Coffee</span>
+                    <span class="pr-cat">Branding</span>
+                    <span class="pr-year">2025</span>
+                    <span class="pr-arrow">&#8599;</span>
+                </li>
 
 
-        <h3>These are the main tools I use-</h3>
-        <br>Photoshop
-        <br>Figma
-        <br>Illustrator
-        <br>Inscape
-        <br>indesign
+            </ul>
+        </div>
+    </section>
 
-        <h3>Extra skills</h3>
-        <br>Photography
-        <br>Linux
-        <br>Image editing
-        <br>Basic Video editing 
+    <div class="hr"></div>
+
+    <!-- CONTACT =============================================================== -->
+    <section class="contact" id="contact">
+        <div class="wrap">
+            <span class="cap sr">Get in touch</span>
+            <h2 class="contact-heading sr">Let&rsquo;s build.</h2>
+            <a href="mailto:hello@sudiprajbanshi.com" class="contact-mail sr">
+                mailto.sudiprajabnshi30@gmail.com
+            </a>
+            <ul class="socials sr">
+                <li><a href="#" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                <li><a href="#" target="_blank" rel="noopener noreferrer">Behance</a></li>
+                <li><a href="#" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- FOOTER ================================================================ -->
+    <footer class="site-footer wrap">
+        <span>Sudip Rajbanshi &copy; 2026</span>
+        <span>Graphic Designer &amp; Brand Specialist</span>
+    </footer>
+
+    <!-- PROJECT DETAIL OVERLAY ================================================ -->
+    <div id="overlay" role="dialog" aria-modal="true" aria-label="Project details">
+        <div class="wrap">
+
+            <button class="ov-back" id="ovBack" aria-label="Back to portfolio">
+                &#8592;&ensp;Back
+            </button>
+
+            <h1 class="ov-title" id="ovTitle"></h1>
+            <img class="ov-cover" id="ovCover" src="" alt="">
+
+            <div class="ov-layout">
+                <div>
+                    <h2 class="ov-headline" id="ovHeadline"></h2>
+                    <p class="ov-desc" id="ovDesc1"></p>
+                    <p class="ov-desc" id="ovDesc2"></p>
+                </div>
+                <div>
+                    <div class="ov-sb-group">
+                        <span class="ov-sb-label">Services</span>
+                        <ul class="ov-sb-list" id="ovServices"></ul>
+                    </div>
+                    <div class="ov-sb-group">
+                        <span class="ov-sb-label">Client</span>
+                        <ul class="ov-sb-list" id="ovClient"></ul>
+                    </div>
+                    <div class="ov-sb-group">
+                        <span class="ov-sb-label">Year</span>
+                        <ul class="ov-sb-list" id="ovYear"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ov-gallery" id="ovGallery"></div>
+
+        </div>
+    </div>
 
 
-    </body>
+    <script>
+        /* =====================================================================
+           THEME — read saved preference before first paint
+           ===================================================================== */
 
+        (function () {
+            var saved = localStorage.getItem('sr-theme');
+            if (saved) document.documentElement.dataset.theme = saved;
+        }());
+
+        var root     = document.documentElement;
+        var themeBtn = document.getElementById('themeBtn');
+
+        themeBtn.addEventListener('click', function () {
+            var next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+            root.dataset.theme = next;
+            localStorage.setItem('sr-theme', next);
+        });
+
+        /* =====================================================================
+           NAV — add background on scroll
+           ===================================================================== */
+
+        var navEl = document.getElementById('nav');
+
+        window.addEventListener('scroll', function () {
+            navEl.classList.toggle('solid', window.scrollY > 50);
+        }, { passive: true });
+
+        /* =====================================================================
+           SCROLL REVEAL — IntersectionObserver
+           ===================================================================== */
+
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in');
+                    io.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+        document.querySelectorAll('.sr, .sg').forEach(function (el) {
+            io.observe(el);
+        });
+
+        /* =====================================================================
+           PROJECT OVERLAY
+           ===================================================================== */
+
+        var projects = {
+            'Qervica': {
+                title:    'Qervica',
+                headline: 'A complete fashion brand design.',
+                desc1:    'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit.',
+                desc2:    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.',
+                services: ['Identity Strategy', 'Logo Design', 'Packaging', 'Prints', 'Digital Presence'],
+                client:   'Qervica Team',
+                year:     '2025',
+                cover:    'https://images.unsplash.com/photo-1612744204774-5d0573587ee1?q=80&w=1173&auto=format&fit=crop',
+                gallery:  [
+                    'https://images.unsplash.com/photo-1592763786796-80c5183faec2?q=80&w=1170&auto=format&fit=crop',
+                    'https://images.unsplash.com/photo-1765677577784-cfdc529775cd?q=80&w=1171&auto=format&fit=crop',
+                    'https://images.unsplash.com/photo-1750163702201-48ac37789bc2?q=80&w=1169&auto=format&fit=crop',
+                    'https://images.unsplash.com/photo-1629405552413-f8f92d2a05cd?q=80&w=1170&auto=format&fit=crop'
+                ]
+            },
+            'Coorgs': {
+                title:    'Coorgs Coffee',
+                headline: 'Coffee brand from Bangalore.',
+                desc1:    'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.',
+                desc2:    'Tipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.',
+                services: ['Identity Strategy', 'Logo Design', 'Packaging', 'Prints', 'Digital Presence'],
+                client:   'Coorgs Bangalore',
+                year:     '2025',
+                cover:    'https://images.unsplash.com/photo-1593714050204-dfad29752089?q=80&w=1148&auto=format&fit=crop',
+                gallery:  [
+                    'https://images.unsplash.com/photo-1773655688680-7c028002a7d4?q=80&w=1170&auto=format&fit=crop',
+                    'https://images.unsplash.com/photo-1770486258294-dfe4bd6b7a44?q=80&w=1170&auto=format&fit=crop'
+                ]
+            },
+    
+        };
+
+        var overlay = document.getElementById('overlay');
+        var ovBack  = document.getElementById('ovBack');
+
+        function openProject(id) {
+            var d = projects[id];
+            if (!d) return;
+
+            document.getElementById('ovTitle').textContent    = d.title;
+            document.getElementById('ovHeadline').textContent = d.headline;
+            document.getElementById('ovDesc1').textContent    = d.desc1;
+            document.getElementById('ovDesc2').textContent    = d.desc2;
+
+            var cover = document.getElementById('ovCover');
+            cover.src = d.cover;
+            cover.alt = d.title;
+
+            document.getElementById('ovServices').innerHTML =
+                d.services.map(function (s) { return '<li>' + s + '</li>'; }).join('');
+            document.getElementById('ovClient').innerHTML = '<li>' + d.client + '</li>';
+            document.getElementById('ovYear').innerHTML   = '<li>' + d.year   + '</li>';
+
+            document.getElementById('ovGallery').innerHTML =
+                d.gallery.map(function (src) {
+                    return '<img src="' + src + '" alt="' + d.title + '" loading="lazy">';
+                }).join('');
+
+            overlay.scrollTop = 0;
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeProject() {
+            overlay.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        document.querySelectorAll('.proj-row').forEach(function (row) {
+            row.addEventListener('click', function () { openProject(row.dataset.id); });
+            row.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openProject(row.dataset.id);
+                }
+            });
+        });
+
+        ovBack.addEventListener('click', closeProject);
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && overlay.classList.contains('open')) {
+                closeProject();
+            }
+        });
+    </script>
+</body>
 </html>
