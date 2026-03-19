@@ -957,6 +957,7 @@
             overlay.scrollTop = 0;
             overlay.classList.add('open');
             document.body.style.overflow = 'hidden';
+            history.pushState({ overlay: true }, '');
         }
 
         function closeProject() {
@@ -974,7 +975,15 @@
             });
         });
 
-        ovBack.addEventListener('click', closeProject);
+        ovBack.addEventListener('click', function () {
+    history.back();
+});
+
+window.addEventListener('popstate', function (e) {
+    if (overlay.classList.contains('open')) {
+        closeProject();
+    }
+});
 
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape' && overlay.classList.contains('open')) {
